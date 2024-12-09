@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 const url = "http://127.0.0.1:5500/main.html"
 
-const browser = await puppeteer.launch({ headless: false });
+const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'], });
 const page = await browser.newPage();
 
 await page.goto(url);
