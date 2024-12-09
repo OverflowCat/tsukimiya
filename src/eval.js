@@ -14,7 +14,7 @@ const run_btn = "button#run-button";
 
 console.info("Module initialized");
 
-export function run(code) {
+export function runMoonbit(code) {
     return page.evaluate(async (code, run_btn) => {
         globalThis.lastOutput = undefined;
         globalThis.setCode(code);
