@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/moonpad.css"> <!-- Include your CSS file -->
+    <link rel="stylesheet" href="/styles/styles.module.css"> <!-- Include your module CSS file -->
+    <title>Moonpad Example</title>
+</head>
+<body>
+
+<div id="moonpad-container" class="wrapper">
+    <div class="buttons-wrapper">
+        <button id="run-button" class="button button--secondary">Run</button>
+        <button id="reset-button" class="button button--secondary">Reset</button>
+        <button id="format-button" class="button button--secondary">Format</button>
+    </div>
+
+    <moonpad-wc id="moonpad-element" data-theme="light" data-content="">
+        <!-- The moonpad-wc element will be defined by the web component -->
+    </moonpad-wc>
+
+    <div>
+        <div style="margin-top: 1em;">Output</div>
+        <div id="output" style="white-space: pre-wrap;"></div>
+    </div>
+</div>
+
+<script type="module">
+    import { Moonpad } from '/moonpad.mjs';
+    document.addEventListener("DOMContentLoaded", function () {
+        const moonpadElement = document.getElementById('moonpad-element');
+        const outputDiv = document.getElementById('output');
+
+        // Check if the custom element is defined
+        if (customElements.get('moonpad-wc') === undefined) {
+            const MoonpadWc = Moonpad; // Adjust according to your setup
+            customElements.define('moonpad-wc', MoonpadWc);
+        }
+
+        // Run button functionality
+        document.getElementById('run-button').addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                const output = await moonpadElement.run(); // Assuming run() is a method of the Moonpad Web Component
+                globalThis.lastOutput = output ?? '';
+                outputDiv.textContent = output ?? '';
+            } catch {
+                globalThis.lastOutput = 'Compile error';
+                outputDiv.textContent = 'Compile error';
+            }
+        });
+
+        // Reset button functionality
+        document.getElementById('reset-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            moonpadElement.reset(); // Reset method of Moonpad Web Component
+        });
+
+        // Format button functionality
+        document.getElementById('format-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            moonpadElement.format(); // Format method of Moonpad Web Component
+        });
+
+        globalThis.setCode = (code) => {
+            moonpadElement.setAttribute('data-content', code);
+        };
+    });
+</script>
+
+</body>
+</html>
