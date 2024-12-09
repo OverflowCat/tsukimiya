@@ -21,7 +21,7 @@ bot.command("eval", async (ctx) => {
     let code = splitCmd(text).at(-1)?.trim() ?? ""; //text.split(" ").slice(1).join(" ");
     console.info(text);
     if (!/fn +main/.test(code)) {
-        lines = code.split("\n");
+        let lines = code.split("\n");
         const last_line = lines.at(-1);
         if (!/println/.test(last_line)) {
             lines[lines.length - 1] = `println(${last_line})`;
