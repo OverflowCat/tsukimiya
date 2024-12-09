@@ -14,23 +14,29 @@ const run_btn = "button#run-button";
 
 console.info("Module initialized");
 
-export function runMoonbit(code) {
+export function runMoonbit(code: string) {
     return page.evaluate(async (code, run_btn) => {
+        // @ts-ignore
         globalThis.lastOutput = undefined;
+        // @ts-ignore
         globalThis.setCode(code);
+        // @ts-ignore
         const runButton = document.querySelector(run_btn);
         runButton.click();
-        const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+        // @ts-ignore
         while (undefined === globalThis.lastOutput) {
             await sleep(100);
             console.log("Waiting for result");
         }
+        // @ts-ignore
         return globalThis.lastOutput;
     }, code, run_btn);
 }
 
 export function reset() {
     return page.evaluate(async (reset_btn) => {
+        // @ts-ignore
         const resetButton = document.querySelector(reset_btn);
         resetButton.click();
     }, reset_btn);
@@ -38,6 +44,7 @@ export function reset() {
 
 export function format() {
     return page.evaluate(async (format_btn) => {
+        // @ts-ignore
         const formatButton = document.querySelector(format_btn);
         formatButton.click();
     }, format_btn);

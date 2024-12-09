@@ -1,4 +1,4 @@
-export async function runCangjie(code) {
+export async function runCangjie(code: string) {
     const body = {
         code,
         type: "1",
